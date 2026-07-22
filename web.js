@@ -375,7 +375,8 @@ document.head.appendChild(notificationStyle);
 // ============================================
 
 function updateCartUI() {
-  document.getElementById("cart-count").innerText = cart.length;
+  const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+  document.getElementById("cart-count").innerText = totalQty;
   const itemsContainer = document.getElementById("cart-items");
   const totalElement = document.getElementById("cart-total");
 
