@@ -148,12 +148,97 @@ function updateCartUI() {
 // Load the cart display automatically when the order page opens
 updateCartUI();
 
+// Display order history on page load
+document.addEventListener('DOMContentLoaded', function() {
+  displayOrderHistory();
+});
+
 // ============================================
-// Order Number System
+// Order History System
 // ============================================
 
 let currentOrderNumber = null;
 let telegramOrderNumber = null;
+
+// Save order to history
+function saveOrderToHistory(orderNumber, telegramOrderNumber, phone, location, comment, cart, totalCost) {
+  const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  
+  const order = {
+    orderNumber: orderNumber,
+    telegramOrderNumber: telegramOrderNumber,
+    phone: phone,
+    location: location,
+    comment: comment,
+    items: cart.map(item => ({
+      name: item.name,
+      qty: item.qty,
+      price: item.price,
+      size: item.size || "L",
+      sugar: item.sugar || "100%"
+    })),
+    totalCost: totalCost,
+    timestamp: new Date().toISOString(),
+    date: new Date().toLocaleString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    })
+  };
+  
+  orderHistory.unshift(order); // Add to beginning of array
+  localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+}
+
+// Display order history
+function displayOrderHistory() {
+  const historyContainer = document.getElementById("order-history-container");
+  if (!historyContainer) return;
+  
+  const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+  
+  if (orderHistory.length === 0) {
+    historyContainer.innerHTML = `
+      <div class="no-history-message">
+        <i class="fas fa-history"></i>
+        <p>No order history yet</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '<div class="order-history-list">';
+  
+  orderHistory.forEach((order, index) => {
+    const itemsList = order.items.map(item => 
+      `${item.qty}x ${item.name} (${item.size})`
+    ).join(', ');
+    
+    html += `
+      <div class="history-item">
+        <div class="history-header">
+          <div class="history-order-number">
+            <i class="fas fa-hashtag"></i> ${order.orderNumber}
+          </div>
+          <div class="history-date">${order.date}</div>
+        </div>
+        <div class="history-details">
+          <p><i class="fas fa-phone"></i> ${order.phone}</p>
+          <p><i class="fas fa-map-marker-alt"></i> ${order.location}</p>
+          <p><i class="fas fa-shopping-bag"></i> ${itemsList}</p>
+          ${order.comment ? `<p><i class="fas fa-comment"></i> ${order.comment}</p>` : ''}
+        </div>
+        <div class="history-total">
+          <i class="fas fa-dollar-sign"></i> ${order.totalCost.toFixed(2)}
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  historyContainer.innerHTML = html;
+}
 
 function generateOrderNumber() {
   // Get the current order count from localStorage (for website display)
@@ -192,15 +277,10 @@ function updateDeliveryInfo() {
   const selectedOption = locationSelect.value;
   
   if (selectedOption) {
-    // Generate order number if not already generated
-    if (!currentOrderNumber) {
-      currentOrderNumber = generateOrderNumber();
-    }
-    
-    // Show delivery info with order number
+    // Show delivery info without generating order number yet
     deliveryInfo.innerHTML = `
       <i class="fas fa-hashtag"></i>
-      <span>${selectedOption}: Your order number is <span class="drink-count">${currentOrderNumber}</span></span>
+      <span>${selectedOption}: Your order number will be generated after confirmation</span>
     `;
     deliveryInfo.classList.add("show");
   } else {
@@ -379,10 +459,12 @@ document
     const botToken = "8749837452:AAF_TCGDTvgK4bLXBIoM4eQLjxv27Rxcksw";
     const chatId = "-5249856765";
 
-    // Generate Telegram order number for this order
-    if (!telegramOrderNumber) {
-      telegramOrderNumber = generateTelegramOrderNumber();
-    }
+    // Generate order number when order is actually submitted
+    const orderNumber = generateOrderNumber();
+    const telegramOrderNumber = generateTelegramOrderNumber();
+    
+    // Save order to history
+    saveOrderToHistory(orderNumber, telegramOrderNumber, phone, location, comment, cart, totalCost);
     
     // Create the Telegram text string - SUPER COOL STYLE
     const message =
