@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reset Counter - MING Coffee</title>
+    <link rel="stylesheet" href="./webstyle.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      .reset-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .reset-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .reset-header h1 {
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .reset-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+      }
+
+      .counter-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .counter-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .counter-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(0, 255, 204, 0.3);
+        box-shadow: 0 10px 40px rgba(0, 255, 204, 0.2);
+      }
+
+      .counter-card i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .counter-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .counter-value {
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: #00ffcc;
+        margin: 20px 0;
+        text-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+      }
+
+      .counter-label {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+      }
+
+      .reset-btn {
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        color: #000;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+      }
+
+      .reset-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .reset-btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .reset-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 255, 204, 0.5);
+      }
+
+      .reset-btn:active {
+        transform: translateY(-1px) scale(0.98);
+        box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
+      }
+
+      .reset-btn.danger {
+        background: linear-gradient(135deg, #ff4444, #ff6b6b);
+        box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+      }
+
+      .reset-btn.danger:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 68, 68, 0.5);
+      }
+
+      .reset-btn.danger:active {
+        box-shadow: 0 5px 20px rgba(255, 68, 68, 0.4);
+      }
+
+      .reset-btn i {
+        position: relative;
+        z-index: 1;
+      }
+
+      .reset-btn span,
+      .reset-btn {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* History Section */
+      .history-section {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+      }
+
+      .history-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .history-list {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+      }
+
+      .history-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .history-list::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+      }
+
+      .history-list::-webkit-scrollbar-thumb {
+        background: rgba(0, 255, 204, 0.3);
+        border-radius: 10px;
+      }
+
+      .history-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 255, 204, 0.5);
+      }
+
+      .history-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .history-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(0, 255, 204, 0.3);
+        transform: translateX(5px);
+      }
+
+      .history-info {
+        flex: 1;
+      }
+
+      .history-action {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .history-details {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+      }
+
+      .history-time {
+        color: rgba(0, 255, 204, 0.8);
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+        margin-left: 15px;
+      }
+
+      .no-history {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.5);
+        padding: 40px 20px;
+        font-size: 1rem;
+      }
+
+      .no-history i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: block;
+        opacity: 0.5;
+      }
+
+      .clear-history-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .clear-history-btn:hover {
+        background: rgba(255, 68, 68, 0.2);
+        border-color: rgba(255, 68, 68, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .history-count {
+        background: rgba(0, 255, 204, 0.2);
+        color: #00ffcc;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .reset-all-section {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .reset-all-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .reset-all-section p {
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 25px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        color: #00ffcc;
+        background: rgba(0, 255, 204, 0.1);
+      }
+
+      .notification {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        color: #000;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-weight: 700;
+        box-shadow: 0 10px 30px rgba(0, 255, 204, 0.4);
+        z-index: 10000;
+        animation: slideInRight 0.5s ease;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 300px;
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        background: #00ffcc;
+        border-radius: 50%;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0) translateX(0);
+          opacity: 0.3;
+        }
+        25% {
+          transform: translateY(-100px) translateX(50px);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(-50px) translateX(-30px);
+          opacity: 0.3;
+        }
+        75% {
+          transform: translateY(-150px) translateX(20px);
+          opacity: 0.5;
+        }
+      }
+
+      /* Custom Confirmation Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 20000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        border: 2px solid rgba(0, 255, 204, 0.5);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgba(0, 255, 204, 0.4);
+        animation: scaleIn 0.3s ease;
+        text-align: center;
+      }
+
+      .modal-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .modal-title {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 15px;
+      }
+
+      .modal-message {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .modal-btn {
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        font-family: 'Inter', sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .modal-btn.confirm {
+        background: linear-gradient(135deg, #00ffcc, #00ccff);
+        color: #000;
+        box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+      }
+
+      .modal-btn.confirm:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 255, 204, 0.5);
+      }
+
+      .modal-btn.confirm:active {
+        transform: translateY(-1px) scale(0.98);
+      }
+
+      .modal-btn.cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .modal-btn.cancel:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px) scale(1.05);
+      }
+
+      .modal-btn.cancel:active {
+        transform: translateY(-1px) scale(0.98);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Reset Counter Section -->
+    <div class="reset-container">
+      <div class="reset-header">
+        <h1><i class="fas fa-sync-alt"></i> Reset Counter</h1>
+        <p>Manage your order number counters</p>
+      </div>
+
+      <!-- Counter Cards -->
+      <div class="counter-cards">
+        <!-- Website Counter -->
+        <div class="counter-card">
+          <i class="fas fa-globe"></i>
+          <h2>Website Orders</h2>
+          <div class="counter-value" id="website-count">0</div>
+          <p class="counter-label">Current order number count</p>
+          <button class="reset-btn danger" onclick="resetWebsiteCounter()">
+            <i class="fas fa-redo"></i>
+            Reset Website Counter
+          </button>
+        </div>
+
+        <!-- Telegram Counter -->
+        <div class="counter-card">
+          <i class="fab fa-telegram"></i>
+          <h2>Telegram Orders</h2>
+          <div class="counter-value" id="telegram-count">0</div>
+          <p class="counter-label">Current Telegram order number count</p>
+          <button class="reset-btn danger" onclick="resetTelegramCounter()">
+            <i class="fas fa-redo"></i>
+            Reset Telegram Counter
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset All Section -->
+      <div class="reset-all-section">
+        <h2><i class="fas fa-exclamation-triangle"></i> Reset All Counters</h2>
+        <p>This will reset both website and Telegram order counters to zero</p>
+        <button class="reset-btn danger" onclick="resetAllCounters()">
+          <i class="fas fa-trash-alt"></i>
+          Reset All Counters
+        </button>
+      </div>
+
+      <!-- Reset History Section -->
+      <div class="history-section">
+        <div class="history-header">
+          <h2><i class="fas fa-history"></i> Reset History</h2>
+          <span class="history-count" id="history-count">0 records</span>
+        </div>
+        <div class="history-list" id="history-list">
+          <!-- History items will be inserted here -->
+        </div>
+        <button class="clear-history-btn" id="clear-history-btn" style="display: none;" onclick="clearHistory()">
+          <i class="fas fa-trash"></i>
+          Clear History
+        </button>
+      </div>
+
+      <!-- Back Link -->
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="web.html" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Menu</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+      <div class="modal-content">
+        <div class="modal-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h3 class="modal-title" id="modalTitle">Confirm Action</h3>
+        <p class="modal-message" id="modalMessage">Are you sure?</p>
+        <div class="modal-buttons">
+          <button class="modal-btn cancel" onclick="closeModal(false)">
+            <i class="fas fa-times"></i>
+            Cancel
+          </button>
+          <button class="modal-btn confirm" onclick="closeModal(true)">
+            <i class="fas fa-check"></i>
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ============================================
+      // Particle Animation
+      // ============================================
+
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        if (!particlesContainer) return;
+
+        const particleCount = 30;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.top = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+          
+          const size = Math.random() * 3 + 1;
+          particle.style.width = size + 'px';
+          particle.style.height = size + 'px';
+          particle.style.opacity = Math.random() * 0.3 + 0.1;
+          
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Initialize particles
+      document.addEventListener('DOMContentLoaded', createParticles);
+
+      // ============================================
+      // Counter Management Functions
+      // ============================================
+
+      function getWebsiteCount() {
+        return parseInt(localStorage.getItem("orderCount")) || 0;
+      }
+
+      function getTelegramCount() {
+        return parseInt(localStorage.getItem("telegramOrderCount")) || 0;
+      }
+
+      function updateDisplay() {
+        const websiteCount = getWebsiteCount();
+        const telegramCount = getTelegramCount();
+
+        document.getElementById('website-count').textContent = websiteCount;
+        document.getElementById('telegram-count').textContent = telegramCount;
+      }
+
+      // Modal callback storage
+      let modalCallback = null;
+
+      /**
+       * Shows a custom confirmation modal
+       * @param {string} message - The confirmation message to display
+       * @returns {Promise<boolean>} - Promise that resolves to true if confirmed, false if cancelled
+       */
+      function showConfirmModal(message) {
+        return new Promise((resolve) => {
+          modalCallback = resolve;
+          document.getElementById('modalMessage').textContent = message;
+          document.getElementById('confirmModal').classList.add('active');
+        });
+      }
+
+      /**
+       * Closes the confirmation modal
+       * @param {boolean} result - The user's choice (true = confirmed, false = cancelled)
+       */
+      function closeModal(result) {
+        document.getElementById('confirmModal').classList.remove('active');
+        if (modalCallback) {
+          modalCallback(result);
+          modalCallback = null;
+        }
+      }
+
+      function resetWebsiteCounter() {
+        showConfirmModal('Are you sure you want to reset the website order counter to 0?').then((confirmed) => {
+          if (confirmed) {
+            const oldCount = getWebsiteCount();
+            localStorage.setItem("orderCount", "0");
+            addToHistory('Website Counter', `Reset from ${oldCount} to 0`);
+            updateDisplay();
+            showNotification('Website counter reset successfully!', 'success');
+          }
+        });
+      }
+
+      function resetTelegramCounter() {
+        showConfirmModal('Are you sure you want to reset the Telegram order counter to 0?').then((confirmed) => {
+          if (confirmed) {
+            const oldCount = getTelegramCount();
+            localStorage.setItem("telegramOrderCount", "0");
+            addToHistory('Telegram Counter', `Reset from ${oldCount} to 0`);
+            updateDisplay();
+            showNotification('Telegram counter reset successfully!', 'success');
+          }
+        });
+      }
+
+      function resetAllCounters() {
+        showConfirmModal('Are you sure you want to reset ALL counters to 0? This action cannot be undone.').then((confirmed) => {
+          if (confirmed) {
+            const oldWebsite = getWebsiteCount();
+            const oldTelegram = getTelegramCount();
+            localStorage.setItem("orderCount", "0");
+            localStorage.setItem("telegramOrderCount", "0");
+            addToHistory('All Counters', `Website: ${oldWebsite}→0, Telegram: ${oldTelegram}→0`);
+            updateDisplay();
+            showNotification('All counters reset successfully!', 'success');
+          }
+        });
+      }
+
+      // ============================================
+      // Notification System
+      // ============================================
+
+      function showNotification(message, type) {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `
+          <i class="fas fa-check-circle"></i>
+          <span>${message}</span>
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'slideOutRight 0.5s ease';
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
+      }
+
+      // ============================================
+      // History Management Functions
+      // ============================================
+
+      function addToHistory(action, details) {
+        const history = JSON.parse(localStorage.getItem("resetHistory")) || [];
+        const timestamp = new Date().toLocaleString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric',
+          hour: '2-digit', 
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        
+        history.unshift({
+          action,
+          details,
+          timestamp
+        });
+
+        // Keep only last 50 records
+        if (history.length > 50) {
+          history.pop();
+        }
+
+        localStorage.setItem("resetHistory", JSON.stringify(history));
+        loadHistory();
+      }
+
+      function loadHistory() {
+        const history = JSON.parse(localStorage.getItem("resetHistory")) || [];
+        const historyList = document.getElementById('history-list');
+        const historyCount = document.getElementById('history-count');
+        const clearBtn = document.getElementById('clear-history-btn');
+
+        historyCount.textContent = `${history.length} record${history.length !== 1 ? 's' : ''}`;
+
+        if (history.length === 0) {
+          historyList.innerHTML = `
+            <div class="no-history">
+              <i class="fas fa-inbox"></i>
+              <p>No reset history yet</p>
+            </div>
+          `;
+          clearBtn.style.display = 'none';
+          return;
+        }
+
+        clearBtn.style.display = 'inline-flex';
+        
+        historyList.innerHTML = history.map((item, index) => `
+          <div class="history-item">
+            <div class="history-info">
+              <div class="history-action">${item.action}</div>
+              <div class="history-details">${item.details}</div>
+            </div>
+            <div class="history-time">${item.timestamp}</div>
+          </div>
+        `).join('');
+      }
+
+      function clearHistory() {
+        showConfirmModal('Are you sure you want to clear all reset history?').then((confirmed) => {
+          if (confirmed) {
+            localStorage.removeItem("resetHistory");
+            loadHistory();
+            showNotification('Reset history cleared successfully!', 'success');
+          }
+        });
+      }
+
+      // ============================================
+      // Initialize
+      // ============================================
+
+      // Update display on page load
+      updateDisplay();
+      
+      // Load history on page load
+      loadHistory();
+
+      // ============================================
+      // Console Branding
+      // ============================================
+
+      console.log('%c☕ MING COFFEE %cReset Counter', 
+        'color: #00ffcc; font-size: 20px; font-weight: bold;', 
+        'color: #fff; font-size: 14px;'
+      );
+    </script>
+  </body>
+</html>

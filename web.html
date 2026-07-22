@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MING Coffee - Premium Beverages</title>
+    <link rel="stylesheet" href="./webstyle.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Desert Background Elements -->
+    <div class="pyramid-bg">
+      <div class="sun"></div>
+      <div class="pyramid pyramid-1"></div>
+      <div class="pyramid pyramid-2"></div>
+      <div class="pyramid pyramid-3"></div>
+      <div class="sand-dune sand-dune-1"></div>
+      <div class="sand-dune sand-dune-2"></div>
+    </div>
+
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Hero Section -->
+    <nav class="main-nav glass-nav">
+        <div class="logo">
+          <i class="fas fa-mug-hot"></i> MING<span>COFFEE</span>
+        </div>
+        <div class="social-links">
+          <a href="./order.html" class="social-icon cart-btn">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+            <span class="cart-pulse"></span>
+          </a>
+          <a href="javascript:void(0)" class="social-icon settings-btn" title="Admin Settings" onclick="showAuthModal()">
+            <i class="fas fa-cog"></i>
+            <span class="pulse-ring"></span>
+          </a>
+          <a href="https://facebook.com" target="_blank" class="social-icon fb">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://t.me" target="_blank" class="social-icon tg">
+            <i class="fab fa-telegram-plane"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" class="social-icon ig">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.tiktok.com" target="_blank" class="social-icon tt">
+            <i class="fab fa-tiktok"></i>
+          </a>
+        </div>
+      </nav>
+
+    <!-- Main Shop Section -->
+    <div id="main-shop">
+      <!-- Navigation -->
+      <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="gradient-text">MING</span>
+          <span class="highlight">COFFEE</span>
+        </h1>
+        <p class="hero-subtitle">Premium Beverages & Matcha Experience</p>
+        <div class="hero-badge">
+          <i class="fas fa-fire"></i> NEW ARRIVALS
+        </div>
+      </div>
+    </section>
+    <!--Home Page Content-->
+    <div class="btt">
+        <a href="./home.html"><button>Home</button></a>
+        <a href="#"><button>About Us</button></a>
+        <a href="#"><button>Products</button></a>
+        <a href="#"><button>Products</button></a>
+    </div>
+
+      <!-- Centered Search Section -->
+      <div class="search-section">
+        <div class="search-wrapper glass-sidebar">
+          <div class="search-header">
+            <i class="fas fa-search"></i>
+            <h3>Find Your Perfect Drink</h3>
+          </div>
+          
+          <div class="search-container">
+            <input
+              type="text"
+              id="brandSearch"
+              onkeyup="searchBrandsAll()"
+              placeholder="Search beverages..."
+              class="search-input"
+            />
+            <span id="clear-search-btn" onclick="clearSearch()" class="clear-btn">
+              <i class="fas fa-times"></i>
+            </span>
+          </div>
+
+          <!-- Brand Categories -->
+          <div class="category-title">Categories</div>
+          <div id="brand-list-container">
+            <div
+              class="brand-item"
+              id="btn-Matcha"
+              onclick="setSearchAndFilter('Matcha')"
+            >
+              <i class="fas fa-leaf"></i> Matcha
+            </div>
+            <div
+              class="brand-item"
+              id="btn-Coffee"
+              onclick="setSearchAndFilter('Coffee')"
+            >
+              <i class="fas fa-coffee"></i> Coffee
+            </div>
+            <div
+              class="brand-item"
+              id="btn-Tea"
+              onclick="setSearchAndFilter('Tea')"
+            >
+              <i class="fas fa-glass-water"></i> Tea
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-container">
+            <div class="stat-item">
+              <i class="fas fa-box-open"></i>
+              <div>
+                <div class="stat-number">6+</div>
+                <div class="stat-label">Products</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <div class="stat-number">4.9</div>
+                <div class="stat-label">Rating</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <main class="products-grid">
+      <!-- Product 1: Matcha Latte -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <span class="badge discount-badge">
+            <i class="fas fa-percent"></i> 20% OFF
+          </span>
+          <span class="badge hot-sale">
+            <i class="fas fa-fire"></i> BEST SELLER
+          </span>
+          <img src="./Matcha.jpg" alt="Matcha Latte" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Matcha Latte', 1.25)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Matcha Latte</h1>
+          <div class="rating-container" data-product="Matcha Latte">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$1.25</span>
+            <span class="old-price">$1.56</span>
+          </div>
+          <button onclick="addToOrder('Matcha Latte', 1.25)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 2: Strawberry Matcha -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <span class="badge hot-sale">
+            <i class="fas fa-fire"></i> BEST SELLER
+          </span>
+          <img src="./matcha stt.jpg" alt="Strawberry Matcha" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Strawberry Matcha', 2.5)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Strawberry Matcha</h1>
+          <div class="rating-container" data-product="Strawberry Matcha">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$2.50</span>
+          </div>
+          <button onclick="addToOrder('Strawberry Matcha', 2.5)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3: Ice Latte Coffee -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <span class="badge discount-badge">
+            <i class="fas fa-percent"></i> 5% OFF
+          </span>
+          <img src="./ice latte.jpg" alt="Ice Latte Coffee" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Ice latte Coffee', 1.25)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Ice Latte Coffee</h1>
+          <div class="rating-container" data-product="Ice Latte Coffee">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$1.25</span>
+            <span class="old-price">$1.31</span>
+          </div>
+          <button onclick="addToOrder('Ice latte Coffee', 1.25)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 4: Ice Americano -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <img src="./americano coffee.jpg" alt="Ice Americano" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Americano coffee', 1.25)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Ice Americano Coffee</h1>
+          <div class="rating-container" data-product="Ice Americano Coffee">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$1.25</span>
+          </div>
+          <button onclick="addToOrder('Americano coffee', 1.25)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 5: Lemon Tea -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <img src="./lemom tea.jpg" alt="Lemon Tea" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Lemon Tea', 1.25)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Lemon Tea</h1>
+          <div class="rating-container" data-product="Lemon Tea">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$1.25</span>
+          </div>
+          <button onclick="addToOrder('Lemon Tea', 1.25)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 6: Lemon Tea High -->
+      <div class="product-card glass-card">
+        <div class="img-container">
+          <img src="./leemon tea.jpg" alt="Lemon Tea High" loading="lazy" />
+          <div class="card-overlay">
+            <button class="quick-view-btn" onclick="addToOrder('Lemon Tea High', 1.25)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h1>Lemon Tea High</h1>
+          <div class="rating-container" data-product="Lemon Tea High">
+            <div class="stars">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+            </div>
+            <span class="rating-text">Rate this product</span>
+          </div>
+          <div class="price-container">
+            <span class="price">$1.25</span>
+          </div>
+          <button onclick="addToOrder('Lemon Tea High', 1.25)" class="buy-btn">
+            <i class="fas fa-shopping-cart"></i> ORDER NOW
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2026 MING Coffee. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal">
+      <div class="modal-content">
+        <h2>
+          <i class="fas fa-lock"></i> Admin Access
+        </h2>
+        
+        <div class="form-group">
+          <label for="auth-name">Name</label>
+          <input type="text" id="auth-name" placeholder="Enter your name">
+        </div>
+
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="auth-password" placeholder="Enter password">
+            <i class="fas fa-eye toggle-password" id="toggle-password"></i>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button id="cancel-auth">Cancel</button>
+          <button id="confirm-auth">Access</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./web.js"></script>
+  </body>
+</html>

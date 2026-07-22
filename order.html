@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete Your Order - MING Coffee</title>
+    <link rel="stylesheet" href="./webstyle.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="gradient-text">Complete</span>
+          <span class="highlight">Your Order</span>
+        </h1>
+        <p class="hero-subtitle">Almost there! Just a few more details</p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="order-container">
+      <!-- Order Summary Card -->
+      <div class="order-card glass-card">
+        <div class="card-header">
+          <i class="fas fa-receipt"></i>
+          <h2>Order Summary</h2>
+        </div>
+
+        <!-- Cart Items -->
+        <div id="cart-list" class="cart-items-container">
+          <!-- Items will appear here -->
+        </div>
+
+        <!-- Total -->
+        <div class="total-section">
+          <div class="total-row">
+            <span class="total-label">
+              <i class="fas fa-calculator"></i> Total Bill
+            </span>
+            <span id="cart-total" class="total-amount">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form Card -->
+      <div class="checkout-card glass-card">
+        <div class="card-header">
+          <i class="fas fa-user-edit"></i>
+          <h2>Delivery Details</h2>
+        </div>
+
+        <form id="checkoutForm">
+          <!-- Phone Number -->
+          <div class="form-group">
+            <label for="customerPhone">
+              <i class="fas fa-phone"></i> Phone Number
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="tel"
+                id="customerPhone"
+                placeholder="Enter your phone number"
+                required
+                class="form-input"
+              />
+              <i class="fas fa-phone input-icon"></i>
+            </div>
+          </div>
+
+          <!-- Delivery Option -->
+          <div class="form-group">
+            <label for="customerLocation">
+              <i class="fas fa-map-marker-alt"></i> Delivery Option
+            </label>
+            <div class="input-wrapper">
+              <select id="customerLocation" required class="form-input" onchange="updateDeliveryInfo()">
+                <option value="">Select option</option>
+                <option value="Wait at the store">🏪 Wait at the store</option>
+              </select>
+              <i class="fas fa-chevron-down input-icon"></i>
+            </div>
+            <div id="delivery-info" class="delivery-info"></div>
+          </div>
+
+          <!-- Additional Comments -->
+          <div class="form-group">
+            <label for="customerComment">
+              <i class="fas fa-comment-dots"></i> Additional Comments
+            </label>
+            <div class="input-wrapper">
+              <textarea
+                id="customerComment"
+                placeholder="Extra instructions (e.g., less ice, room number, call on arrival)"
+                class="form-input textarea-input"
+              ></textarea>
+              <i class="fas fa-pen input-icon textarea-icon"></i>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-check-circle"></i>
+            <span>Confirm Order</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- Back Link -->
+        <a href="web.html" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Menu</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="success-modal">
+      <div class="success-content">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Order Placed Successfully!</h2>
+        <p>Thank you for your order. We'll prepare it right away!</p>
+        <a href="web.html" class="success-btn">
+          <i class="fas fa-home"></i> Back to Menu
+        </a>
+      </div>
+    </div>
+
+    <script src="./weborder.js"></script>
+  </body>
+</html>

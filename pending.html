@@ -1,0 +1,149 @@
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Order Pending</title>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet"
+      />
+      <style>
+        :root {
+          --accent: #00ffcc;
+          --bg: #0a0a0a;
+          --card: rgba(255, 255, 255, 0.03);
+        }
+        body {
+          font-family: "Inter", sans-serif;
+          text-align: center;
+          margin: 0;
+          background-color: var(--bg);
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          overflow: hidden;
+        }
+        .box {
+          background: var(--card);
+          border: 1px solid rgba(0, 255, 204, 0.2);
+          padding: 50px 40px;
+          border-radius: 24px;
+          backdrop-filter: blur(10px);
+          max-width: 400px;
+          width: 90%;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+          animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .check-icon {
+          font-size: 5rem;
+          margin-bottom: 20px;
+          display: block;
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.1);
+            opacity: 0.7;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        h1 {
+          color: var(--accent);
+          font-weight: 900;
+          letter-spacing: -1px;
+          margin-bottom: 10px;
+        }
+        p {
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.6;
+          margin-bottom: 25px;
+        }
+        .back-btn {
+          display: inline-block;
+          padding: 12px 30px;
+          background: var(--accent);
+          color: #000;
+          text-decoration: none;
+          font-weight: bold;
+          border-radius: 12px;
+          transition: 0.3s;
+        }
+        .back-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+        /* New style for the receipt button */
+        .receipt-btn {
+          display: inline-block;
+          padding: 12px 30px;
+          background: #555; /* A darker grey for contrast */
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+          border-radius: 12px;
+          transition: 0.3s;
+          margin-top: 10px; /* Space between buttons */
+        }
+        .receipt-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 20px rgba(85, 85, 85, 0.4);
+        }
+        .reset-counter-link-small {
+          display: inline-block;
+          margin-top: 15px;
+          padding: 10px 24px;
+          background: rgba(255, 68, 68, 0.1);
+          border: 1px solid rgba(255, 68, 68, 0.3);
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          font-weight: 600;
+          border-radius: 12px;
+          transition: all 0.3s;
+          font-size: 0.9rem;
+        }
+        .reset-counter-link-small:hover {
+          color: #ff6b6b;
+          background: rgba(255, 68, 68, 0.2);
+          border-color: rgba(255, 68, 68, 0.5);
+          box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3);
+          transform: translateY(-2px);
+        }
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        <span class="check-icon">⏳</span>
+        <h1>Order Sent!</h1>
+        <p id="status-text">Your order is now waiting for confirmation.</p>
+        <p id="order-details">
+          Please wait while the shop owner reviews your order. You will be
+          contacted via Telegram or Phone shortly! This page will automatically
+          redirect once your order is confirmed.
+        </p>
+
+        <a href="#" id="check-receipt-btn" class="receipt-btn">Check</a>
+        <br>
+        <a href="./reset-counter.html" class="reset-counter-link-small">Reset Counter</a>
+      </div>
+      <script src="./comfirm.js"></script>
+    </body>
+  </html>
