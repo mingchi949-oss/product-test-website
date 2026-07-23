@@ -2098,17 +2098,42 @@ select.form-input {
 /* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .main-nav {
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
     text-align: center;
+    justify-content: center;
+    padding: 12px 15px;
+  }
+
+  /* Make cart button more prominent on mobile */
+  .cart-btn {
+    order: -1; /* Move cart to the left/first position */
+    padding: 8px 16px;
+    font-size: 1.1rem;
+    background: rgba(0, 255, 204, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+  }
+
+  .cart-count {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+  }
+
+  /* Ensure cart pulse is visible on mobile */
+  .cart-pulse {
+    background: var(--accent);
   }
 
   .search-section {
