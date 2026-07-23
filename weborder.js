@@ -418,7 +418,7 @@ document.head.appendChild(notificationStyle);
 // Handle the checkout submit
 document
   .getElementById("checkoutForm")
-  .addEventListener("submit", function (event) {
+  .addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -451,90 +451,76 @@ document
       return;
     }
 
-    // Build the list text for Telegram
-    let itemsText = "";
+    // Calculate total cost
     let totalCost = 0;
-
     cart.forEach((item) => {
-      const cost = item.price * item.qty;
-      totalCost += cost;
-      itemsText += `☕ ${item.qty}x ${item.name} (${item.size || "L"}) (${item.sugar || "100%"}) - $${cost.toFixed(2)}\n`;
+      totalCost += item.price * item.qty;
     });
 
     const orderSummary = cart
       .map((item) => `${item.qty}x ${item.name}`)
       .join(", ");
 
-    // YOUR TELEGRAM CONFIGURATION
-    const botToken = "8749837452:AAF_TCGDTvgK4bLXBIoM4eQLjxv27Rxcksw";
-    const chatId = "-5249856765";
-
     // Generate order number when order is actually submitted
     const orderNumber = generateOrderNumber();
     const telegramOrderNumber = generateTelegramOrderNumber();
     
-    // Save order to history
+    // Save order to history (localStorage for customer view)
     saveOrderToHistory(orderNumber, telegramOrderNumber, phone, location, comment, cart, totalCost);
     
-    // Create the Telegram text string - SUPER COOL STYLE
-    const message =
-      `*📱 CUSTOMER INFORMATION*\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `📞 *Phone:* ${phone}\n` +
-      `📍 *Location:* ${location}\n` +
-      `💬 *Comment:* ${comment || "None"}\n` +
-      `🔖 *Order Number:* ${telegramOrderNumber}\n\n` +
-      `*🛍️ ORDER ITEMS*\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `${itemsText}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `💰 *TOTAL BILL:* $${totalCost.toFixed(2)}\n` +
-      `⏰ *STATUS:* Preparing...`;
+    // Send order to backend API
+    try {
+      const response = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phone: phone,
+          location: location,
+          comment: comment || '',
+          items: cart.map(item => ({
+            name: item.name,
+            price: item.price,
+            qty: item.qty,
+            size: item.size || "L",
+            sugar: item.sugar || "100%"
+          })),
+          totalCost: totalCost
+        })
+      });
 
-    // Send the order to Telegram
-    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: "Markdown",
-      }),
-    };
+      const data = await response.json();
+      
+      if (data.success) {
+        // Clear cart and saved form data
+        localStorage.removeItem("coffeeCart");
+        localStorage.removeItem("savedPhone");
+        localStorage.removeItem("savedLocation");
+        localStorage.removeItem("savedComment");
 
-    fetch(telegramUrl, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.ok) {
-          // Clear cart and saved form data
-          localStorage.removeItem("coffeeCart");
-          localStorage.removeItem("savedPhone");
-          localStorage.removeItem("savedLocation");
-          localStorage.removeItem("savedComment");
-
-          // Update the cart badge on the main page (set to 0)
-          if (typeof updateBadge === 'function') {
-            updateBadge();
-          }
-
-          // Show success modal
-          showSuccessModal();
-        } else {
-          showSuccessNotification('Something went wrong. Please try again.');
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Confirm Order</span> <i class="fas fa-arrow-right"></i>';
-          }
+        // Update the cart badge on the main page (set to 0)
+        if (typeof updateBadge === 'function') {
+          updateBadge();
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showSuccessNotification('Network error. Please try again.');
+
+        // Redirect to pending page
+        window.location.href = `pending.html?phone=${encodeURIComponent(phone)}&summary=${encodeURIComponent(orderSummary)}`;
+      } else {
+        showSuccessNotification('Something went wrong. Please try again.');
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Confirm Order</span> <i class="fas fa-arrow-right"></i>';
         }
-      });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showSuccessNotification('Network error. Please try again.');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span>Confirm Order</span> <i class="fas fa-arrow-right"></i>';
+      }
+    }
   });
 
 // ============================================
