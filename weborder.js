@@ -63,6 +63,11 @@ function addToCart(itemName, price, inputId) {
   // Refresh the display
   updateCartUI();
   
+  // Update the cart badge on the main page
+  if (typeof updateBadge === 'function') {
+    updateBadge();
+  }
+  
   // Show success notification
   showSuccessNotification(`${quantity}x ${itemName} added to cart!`);
 }
@@ -73,6 +78,11 @@ function removeFromCart(index) {
   cart.splice(index, 1);
   localStorage.setItem("coffeeCart", JSON.stringify(cart));
   updateCartUI();
+  
+  // Update the cart badge on the main page
+  if (typeof updateBadge === 'function') {
+    updateBadge();
+  }
   
   showSuccessNotification(`${itemName} removed from cart`);
 }
@@ -501,6 +511,11 @@ document
           localStorage.removeItem("savedPhone");
           localStorage.removeItem("savedLocation");
           localStorage.removeItem("savedComment");
+
+          // Update the cart badge on the main page (set to 0)
+          if (typeof updateBadge === 'function') {
+            updateBadge();
+          }
 
           // Show success modal
           showSuccessModal();
